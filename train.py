@@ -19,6 +19,8 @@ def get_args():
                         default=0.1, help='DANN dis alpha')
     parser.add_argument('--mixupalpha', type=float,
                         default=0.2, help='mixup hyper-param')
+    parser.add_argument('--bce_weight', type=float,
+                        default=0.5, help='bce_weight')
     parser.add_argument('--lr', type=float, default=0.01, help="learning rate")
     parser.add_argument('--output', type=str,
                         default="/data/MedicalDG/output/ERM", help='result output path')

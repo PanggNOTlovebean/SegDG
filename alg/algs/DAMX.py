@@ -38,8 +38,8 @@ class DAMX(Algorithm):
             disc_input = Adver_network.ReverseLayerF.apply(disc_input, self.args.alpha)
             disc_out = self.discriminator(disc_input)     
             disc_loss = F.cross_entropy(disc_out, d)
-            classifier_loss = lam * calc_loss(predictions, yi.cuda().float().unsqueeze(1))
-            classifier_loss += (1 - lam) * calc_loss(predictions, yj.cuda().float().unsqueeze(1))
+            classifier_loss = lam * calc_loss(predictions, yi.cuda().float().unsqueeze(1), bce_weight= self.args.bce_weight)
+            classifier_loss += (1 - lam) * calc_loss(predictions, yj.cuda().float().unsqueeze(1), bce_weight= self.args.bce_weight)
             loss = self.args.alpha * disc_loss  + classifier_loss 
             c_loss += classifier_loss.item() 
             d_loss += disc_loss.item() 
