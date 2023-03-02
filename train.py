@@ -23,7 +23,7 @@ def get_args():
                         default=0.5, help='bce_weight')
     parser.add_argument('--lr', type=float, default=0.01, help="learning rate")
     parser.add_argument('--output', type=str,
-                        default="/data/MedicalDG/output/ERM", help='result output path')
+                        default="output/test", help='result output path')
     parser.add_argument('--anneal_iters', type=int,
                         default=500, help='Penalty anneal iters used in VREx')
     parser.add_argument('--batch_size', type=int,
@@ -63,7 +63,7 @@ def get_args():
     parser.add_argument('--lr_gamma', type=float,
                         default=0.0003, help='for optimizer')
     parser.add_argument('--max_epoch', type=int,
-                        default=120, help="max iterations")
+                        default=1, help="max iterations")
     parser.add_argument('--momentum', type=float,
                         default=0.9, help='for optimizer')
     parser.add_argument('--net', type=str, default='resnet50',
@@ -105,22 +105,29 @@ if __name__ == '__main__':
     algorithm.train()
     opt = get_optimizer(algorithm, args)
     sch = get_scheduler(opt, args)
-
+    
     s = print_args(args, [])    
     print('=======hyper-parameter used========')
     print(s)
-
+    metrics = ['acc', 'iou', 'miou', 'dice', 'precision', 'recall']
+    record = {}
     acc_record = {}
     iou_record = {}
     miou_record = {}
     dice_record = {}
     precision_record = {}
     recall_record = {}
+    
+    
+    best_val_record  = []
+    
     acc_type_list = ['train', 'valid', 'target']
     train_minibatches_iterator = zip(*train_loaders)
     best_valid_dice, best_valid_acc= 0, 0
+    valid_acc, valid_dice, valid_iou, valid_precision, valid_recall, valid_miou = 0, 0, 0, 0, 0, 0
     target_acc, target_dice, target_iou, target_precision, target_recall, target_miou = 0, 0, 0, 0, 0, 0
     print('===========start training===========')
+    
     sss = time.time()
     for epoch in range(args.max_epoch):
         for iter_num in range(args.steps_per_epoch):
@@ -144,6 +151,7 @@ if __name__ == '__main__':
                 result = torch.tensor(result)
                 result = torch.mean(result, axis = 0)
                 mean_acc, mean_iou, mean_miou, mean_dice, mean_precision, mean_recall = list(result)
+                
                 acc_record[item] = mean_acc
                 iou_record[item] = mean_iou
                 miou_record[item] = mean_miou
@@ -159,6 +167,14 @@ if __name__ == '__main__':
             print(s[:-1])
             if dice_record['valid'] > best_valid_dice:
                 best_valid_dice = dice_record['valid']
+                
+                valid_acc = acc_record['target']
+                valid_dice = dice_record['valid']
+                valid_iou = iou_record['valid']
+                valid_miou = miou_record['valid']
+                valid_precision = precision_record['valid']
+                valid_recall = recall_record['valid']
+                
                 target_acc = acc_record['target']
                 target_dice = dice_record['target']
                 target_iou = iou_record['target']
@@ -184,11 +200,25 @@ if __name__ == '__main__':
     with open(os.path.join(args.output, 'done.txt'), 'w') as f:
         f.write('done\n')
         f.write('total cost time:%s\n' % (str(time.time()-sss)))
-        f.write('valid dice: %.4f' % best_valid_dice)
-        f.write('DG result acc: %.4f' % target_acc)
-        f.write('DG result dice: %.4f' % target_dice)
-        f.write('DG result iou: %.4f' % target_iou)
-        f.write('DG result miou: %.4f' % target_miou)
-        f.write('DG result precision: %.4f' % target_precision)
-        f.write('DG result recall: %.4f' % target_recall)
+        
+        f.write('algorithm %s\n' % args.algorithm)
+        f.write('test_envs: %.4f\n' % args.test_envs[0])
+        f.write('alpha: %.4f\n' % args.alpha)
+        f.write('mixupalpha: %.4f\n' % args.mixupalpha)
+        f.write('bce_weight: %.4f\n' % args.bce_weight)
+        f.write('lr: %.4f\n' % args.lr)
+
+        f.write('DG result valid acc: %.4f\n' % valid_acc)
+        f.write('DG result valid dice: %.4f\n' % valid_dice)
+        f.write('DG result valid iou: %.4f\n' % valid_iou)
+        f.write('DG result valid miou: %.4f\n' % valid_miou)
+        f.write('DG result valid precision: %.4f\n' % valid_precision)
+        f.write('DG result valid recall: %.4f\n' % valid_recall)
+        
+        f.write('DG result acc: %.4f\n' % target_acc)
+        f.write('DG result dice: %.4f\n' % target_dice)
+        f.write('DG result iou: %.4f\n' % target_iou)
+        f.write('DG result miou: %.4f\n' % target_miou)
+        f.write('DG result precision: %.4f\n' % target_precision)
+        f.write('DG result recall: %.4f\n' % target_recall)
 
