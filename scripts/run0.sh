@@ -1,4 +1,4 @@
-test_envs=3
-CUDA_VISIBLE_DEVICES=0 python train.py --data_dir data --max_epoch 120 --net resnet50 --alpha 0.1 --task img_dg --output output/ERM/output0 --test_envs $test_envs --dataset medical --algorithm ERM --lr 0.001 --mixupalpha 0.1 --batch_size 4 --bce_weight 1 --seed 0 &&
-CUDA_VISIBLE_DEVICES=0 python train.py --data_dir data --max_epoch 120 --net resnet50 --alpha 0.1 --task img_dg --output output/ERM/output1 --test_envs $test_envs --dataset medical --algorithm ERM --lr 0.001 --mixupalpha 0.1 --batch_size 4 --bce_weight 0.5 --seed 0 &&
-CUDA_VISIBLE_DEVICES=0 python train.py --data_dir data --max_epoch 120 --net resnet50 --alpha 0.1 --task img_dg --output output/ERM/output2 --test_envs $test_envs --dataset medical --algorithm ERM --lr 0.001 --mixupalpha 0.1 --batch_size 4 --bce_weight 0 --seed 0
+test_envs=0
+CUDA_VISIBLE_DEVICES=0 python train.py --data_dir data --max_epoch 120 --net resnet50 --alpha 0.1 --task img_dg --output output/ERMPLUS/output0 --test_envs $test_envs --dataset medical --algorithm ERM --lr 0.003 --mixupalpha 0.1 --batch_size 4 --bce_weight 1 --seed 0 &&
+CUDA_VISIBLE_DEVICES=0 python train.py --data_dir data --max_epoch 120 --net resnet50 --alpha 0.1 --task img_dg --output output/ERMPLUS/output1 --test_envs $test_envs --dataset medical --algorithm ERM --lr 0.003 --mixupalpha 0.1 --batch_size 4 --bce_weight 0.75 --seed 0 &&
+CUDA_VISIBLE_DEVICES=0 python train.py --data_dir data --max_epoch 120 --net resnet50 --alpha 0.1 --task img_dg --output output/ERMPLUS/output2 --test_envs $test_envs --dataset medical --algorithm ERM --lr 0.003 --mixupalpha 0.1 --batch_size 4 --bce_weight 0.5 --seed 0

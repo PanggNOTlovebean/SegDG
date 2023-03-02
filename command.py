@@ -1,6 +1,6 @@
 dataset='medical'
 # algorithm=('MLDG' 'ERM' 'DANN' 'RSC' 'Mixup' 'MMD' 'CORAL' 'VREx') 
-algorithm=('ERM') 
+algorithm=('DAMX') 
 test_envs=0
 gpu_id=0
 data_dir='data'
@@ -15,10 +15,10 @@ count = 0
 cuda = 0
 out_dir = 'output'
 seed = 0
-for lr in [0.001]:
-    for mixupalpha in [0.1, 0.2]:
-        for bce_weight in [1, 0.5, 0]:
-            output = f'{out_dir}/{algorithm}/output{count}'
+for lr in [0.003, 0.005]:
+    for mixupalpha in [0.1]:
+        for bce_weight in [1, 0.75, 0.5]:
+            output = f'{out_dir}/{algorithm}PLUS/output{count}'
             print(f'CUDA_VISIBLE_DEVICES={cuda} python train.py --data_dir {data_dir} --max_epoch {max_epoch} --net {net} --alpha {alpha} --task {task} --output {output} --test_envs $test_envs --dataset {dataset} --algorithm {algorithm} --lr {lr} --mixupalpha {mixupalpha} --batch_size {batch_size} --bce_weight {bce_weight} --seed {seed} &&')
             count += 1
         print('==============================')

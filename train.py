@@ -173,20 +173,22 @@ if __name__ == '__main__':
 
     save_checkpoint('model.pkl', algorithm, args)
 
-    print('valid acc: %.4f' % best_valid_dice)
+    print('valid dice: %.4f' % best_valid_dice)
     print('DG result acc: %.4f' % target_acc)
     print('DG result dice: %.4f' % target_dice)
     print('DG result iou: %.4f' % target_iou)
+    print('DG result miou: %.4f' % target_miou)
     print('DG result precision: %.4f' % target_precision)
     print('DG result reacll: %.4f' % target_recall)
 
     with open(os.path.join(args.output, 'done.txt'), 'w') as f:
         f.write('done\n')
         f.write('total cost time:%s\n' % (str(time.time()-sss)))
-        f.write('valid acc: %.4f' % best_valid_dice)
+        f.write('valid dice: %.4f' % best_valid_dice)
         f.write('DG result acc: %.4f' % target_acc)
         f.write('DG result dice: %.4f' % target_dice)
         f.write('DG result iou: %.4f' % target_iou)
+        f.write('DG result miou: %.4f' % target_miou)
         f.write('DG result precision: %.4f' % target_precision)
         f.write('DG result recall: %.4f' % target_recall)
 
