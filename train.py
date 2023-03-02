@@ -68,7 +68,7 @@ def get_args():
                         default=0.9, help='for optimizer')
     parser.add_argument('--net', type=str, default='resnet50',
                         help="featurizer: vgg16, resnet50, resnet101,DTNBase")
-    parser.add_argument('--N_WORKERS', type=int, default=4)
+    parser.add_argument('--N_WORKERS', type=int, default=8)
     parser.add_argument('--save_model_every_checkpoint', action='store_true')
     parser.add_argument('--schuse', action='store_true')
     parser.add_argument('--schusech', type=str, default='cos')

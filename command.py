@@ -10,14 +10,14 @@ task='img_dg'
 alpha=0.1
 mixupalpha=0.2
 lr=0.001
-batch_size=4
+batch_size=12
 count = 0
 cuda = 0
 out_dir = 'output'
 seed = 0
-for test_envs in [0, 1]:
+for test_envs in [2, 3]:
     for mixupalpha in [0.1]:
-        for bce_weight in [1, 0.5]:
+        for bce_weight in [0.5, 1]:
             output = f'{out_dir}/{algorithm}VGG/output{count}'
             print(f'CUDA_VISIBLE_DEVICES={cuda} python train.py --data_dir {data_dir} --max_epoch {max_epoch} --net {net} --alpha {alpha} --task {task} --output {output} --test_envs {test_envs} --dataset {dataset} --algorithm {algorithm} --lr {lr} --mixupalpha {mixupalpha} --batch_size {batch_size} --bce_weight {bce_weight} --seed {seed} &&')
             count += 1
