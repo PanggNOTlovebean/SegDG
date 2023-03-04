@@ -17,7 +17,7 @@ class DAMX(Algorithm):
         super(DAMX, self).__init__(args)
         self.unet = Unet(num_classes = 1, pretrained = True, backbone = args.net)
         self.discriminator = Adver_network.Discriminator(
-            512 * 24 * 24, args.dis_hidden, args.domain_num - len(args.test_envs))
+            2048 * 7 * 7, args.dis_hidden, args.domain_num - len(args.test_envs))
         self.args = args
         # self.focalloss = BCEFocalLoss(alpha = 0.8)
 
@@ -32,7 +32,6 @@ class DAMX(Algorithm):
             d_i = torch.vstack([torch.eye(self.args.domain_num - len(self.args.test_envs))[d.long()] for d in di ]).cuda()
             d_j = torch.vstack([torch.eye(self.args.domain_num - len(self.args.test_envs))[d.long()] for d in dj ]).cuda()
             d = (lam * d_i + (1 - lam) * d_j).cuda().float() 
-            # print(x.shape)
             predictions, z = self.unet(x) 
             disc_input = z.reshape(z.shape[0], -1)
             disc_input = Adver_network.ReverseLayerF.apply(disc_input, self.args.alpha)

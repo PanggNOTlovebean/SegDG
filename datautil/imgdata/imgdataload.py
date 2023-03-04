@@ -8,7 +8,7 @@ from torchvision.datasets import ImageFolder
 from torchvision.datasets.folder import default_loader
 import os
 from PIL import Image
-
+    
 class ImageDataset(object):
     def __init__(self, dataset, task, root_dir, domain_name, domain_label=-1, labels=None, transform=None, indices=None, test_envs=[], mode='Default'):
         # self.imgs = ImageFolder(root_dir+domain_name).imgs
@@ -38,12 +38,13 @@ class ImageDataset(object):
         # Load image and mask
         img = Image.open(img_path).convert('L')
         mask = Image.open(mask_path).convert('L')
-        
         # Apply transform if given
         if self.transform is not None:
             img = self.transform(img)
             
-        mask = transforms.ToTensor()(mask)
+        mask = transforms.Compose([
+        transforms.CenterCrop(224),
+        transforms.ToTensor()])(mask)
             
         domain = self.dlabels[index]
         return img, mask, domain
