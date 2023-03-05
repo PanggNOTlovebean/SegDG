@@ -23,7 +23,7 @@ class DAMXX(Algorithm):
 
     def update(self, minibatches, opt, sch, epoch):
 
-        if epoch < 30 :
+        if epoch < 50 :
             all_x = torch.cat([data[0].cuda().float() for data in minibatches])
             all_y = torch.cat([data[1].cuda().float() for data in minibatches])
             predictions, _ = self.unet(all_x)
@@ -44,12 +44,14 @@ class DAMXX(Algorithm):
                 x = (lam * xi + (1 - lam) * xj).cuda().float() 
                 d_i = torch.vstack([torch.eye(self.args.domain_num - len(self.args.test_envs))[d.long()] for d in di ]).cuda()
                 d_j = torch.vstack([torch.eye(self.args.domain_num - len(self.args.test_envs))[d.long()] for d in dj ]).cuda()
-                d = (lam * d_i + (1 - lam) * d_j).cuda().float() 
                 predictions, z = self.unet(x) 
                 disc_input = z.reshape(z.shape[0], -1)
                 disc_input = Adver_network.ReverseLayerF.apply(disc_input, self.args.alpha)
                 disc_out = self.discriminator(disc_input)     
-                disc_loss = F.cross_entropy(disc_out, d)
+                
+                disc_loss = lam * F.cross_entropy(disc_out, d_i)
+                disc_loss = (1 - lam) * F.cross_entropy(disc_out, d_j)
+                
                 classifier_loss = lam * calc_loss(predictions, yi.cuda().float().unsqueeze(1), bce_weight= self.args.bce_weight)
                 classifier_loss += (1 - lam) * calc_loss(predictions, yj.cuda().float().unsqueeze(1), bce_weight= self.args.bce_weight)
                 loss = self.args.alpha * disc_loss  + classifier_loss 
