@@ -132,7 +132,7 @@ if __name__ == '__main__':
     for epoch in range(args.max_epoch):
         for iter_num in range(args.steps_per_epoch):
             minibatches_device = [(data) for data in next(train_minibatches_iterator)]
-            step_vals = algorithm.update(minibatches_device, opt, sch)
+            step_vals = algorithm.update(minibatches_device, opt, sch, epoch)
 
         if (epoch in [int(args.max_epoch*0.7), int(args.max_epoch*0.9)]) and (not args.schuse):
             print('manually descrease lr')
