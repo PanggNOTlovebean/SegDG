@@ -21,7 +21,7 @@ class DAMX(Algorithm):
         self.args = args
         # self.focalloss = BCEFocalLoss(alpha = 0.8)
 
-    def update(self, minibatches, opt, sch):
+    def update(self, minibatches, opt, sch, epoch):
         t_loss = 0
         c_loss = 0
         d_loss = 0
