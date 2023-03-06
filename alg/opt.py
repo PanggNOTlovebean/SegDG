@@ -48,7 +48,7 @@ def get_params(alg, args, inner=False, alias=True, isteacher=False):
 
 def get_optimizer(alg, args, inner=False, alias=True, isteacher=False):
     params = get_params(alg, args, inner, alias, isteacher)
-    optimizer = torch.optim.Adam(params, lr=args.lr, betas=(0.9, 0.999), eps=1e-8, weight_decay=0, amsgrad=False)
+    optimizer = torch.optim.Adam(params, lr=args.lr, betas=(0.9, 0.999), eps=1e-8, weight_decay=1e-4, amsgrad=False)
 
     return optimizer
 
