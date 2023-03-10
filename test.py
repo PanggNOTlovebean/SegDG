@@ -1,3 +1,4 @@
+from __future__ import absolute_import, division, print_function
 from nets import Unet
 import torch
 from PIL import Image, ImageFile
@@ -71,6 +72,20 @@ def imageMean():
     print(np.array(mean).mean())
     print(np.array(std).mean())
     
+from nets.fcn import *
+
+def fcn_test():
+    model = fcn16_vgg16(n_classes = 1, batch_size = 4, pretrained=True, fixed_feature=False)
+
+    x = torch.ones(4, 3, 224,224)
+    y, feature = model(x)
+    print(y.shape, feature.shape)
+    
+    model = fcn16_resnet50(n_classes = 1, batch_size = 4, pretrained=True, fixed_feature=False)
+
+    x = torch.ones(4, 3, 224,224)
+    y, feature = model(x)
+    print(y.shape, feature.shape)
     
 if __name__ == '__main__':
-    imageMean()
+    fcn_test()

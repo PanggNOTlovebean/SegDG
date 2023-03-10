@@ -29,7 +29,7 @@ def get_params(alg, args, inner=False, alias=True, isteacher=False):
         ]
     elif alias:
         params = [
-            {'params': alg.unet.parameters(), 'lr': args.lr_decay1 * initlr},
+            {'params': alg.net.parameters(), 'lr': args.lr_decay1 * initlr},
         ]
     else:
         params = [

@@ -14,7 +14,7 @@ from datautil.getdataloader import get_img_dataloader
 
 def get_args():
     parser = argparse.ArgumentParser(description='DG')
-    parser.add_argument('--algorithm', type=str, default="ERM")
+    parser.add_argument('--algorithm', type=str, default="DAMX")
     parser.add_argument('--alpha', type=float,
                         default=0.1, help='DANN dis alpha')
     parser.add_argument('--mixupalpha', type=float,
@@ -22,6 +22,8 @@ def get_args():
     parser.add_argument('--bce_weight', type=float,
                         default=0.5, help='bce_weight')
     parser.add_argument('--lr', type=float, default=0.01, help="learning rate")
+    parser.add_argument('--net', type=str, default='resnet50',
+                        help="featurizer: vgg16, resnet50, resnet101,DTNBase")
     parser.add_argument('--output', type=str,
                         default="output/test", help='result output path')
     parser.add_argument('--anneal_iters', type=int,
@@ -66,8 +68,7 @@ def get_args():
                         default=1, help="max iterations")
     parser.add_argument('--momentum', type=float,
                         default=0.9, help='for optimizer')
-    parser.add_argument('--net', type=str, default='resnet50',
-                        help="featurizer: vgg16, resnet50, resnet101,DTNBase")
+
     parser.add_argument('--N_WORKERS', type=int, default=8)
     parser.add_argument('--save_model_every_checkpoint', action='store_true')
     parser.add_argument('--schuse', action='store_true')
