@@ -18,7 +18,7 @@ class ERM(Algorithm):
         self.unet = Unet(num_classes = 1, pretrained = True, backbone = args.net)
         self.args = args
 
-    def update(self, minibatches, opt, sch):
+    def update(self, minibatches, opt, sch, epoch):
         
         all_x = torch.cat([data[0].cuda().float() for data in minibatches])
         all_y = torch.cat([data[1].cuda().float() for data in minibatches])
