@@ -65,7 +65,7 @@ def get_args():
     parser.add_argument('--lr_gamma', type=float,
                         default=0.0003, help='for optimizer')
     parser.add_argument('--max_epoch', type=int,
-                        default=1, help="max iterations")
+                        default=2, help="max iterations")
     parser.add_argument('--momentum', type=float,
                         default=0.9, help='for optimizer')
 
@@ -182,13 +182,14 @@ if __name__ == '__main__':
                 target_miou = miou_record['target']
                 target_precision = precision_record['target']
                 target_recall = recall_record['target']
-                
+                save_checkpoint(f'model_val.pkl', algorithm, args)
+                # algorithm = algorithm.cuda()
             if args.save_model_every_checkpoint:
                 save_checkpoint(f'model_epoch{epoch}.pkl', algorithm, args)
             print('total cost time: %.4f' % (time.time()-sss))
-            algorithm_dict = algorithm.state_dict()
+            # algorithm_dict = algorithm.state_dict()
 
-    save_checkpoint('model.pkl', algorithm, args)
+    # save_checkpoint('model.pkl', algorithm, args)
 
     print('valid dice: %.4f' % best_valid_dice)
     print('DG result acc: %.4f' % target_acc)
