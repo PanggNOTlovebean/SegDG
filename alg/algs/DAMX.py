@@ -41,6 +41,7 @@ class DAMX(Algorithm):
             x = (lam * xi + (1 - lam) * xj).cuda().float() 
             d_i = torch.vstack([torch.eye(self.args.domain_num - len(self.args.test_envs))[d.long()] for d in di ]).cuda()
             d_j = torch.vstack([torch.eye(self.args.domain_num - len(self.args.test_envs))[d.long()] for d in dj ]).cuda()
+
             x = x.repeat(1, 3, 1, 1)
             predictions, z = self.net(x) 
             disc_input = z.reshape(z.shape[0], -1)
