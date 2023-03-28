@@ -54,7 +54,7 @@ class DAMX(Algorithm):
             classifier_loss = lam * calc_loss(predictions, yi.cuda().float().unsqueeze(1), bce_weight= self.args.bce_weight)
             classifier_loss += (1 - lam) * calc_loss(predictions, yj.cuda().float().unsqueeze(1), bce_weight= self.args.bce_weight)
             
-            loss = disc_loss  + classifier_loss 
+            loss = - disc_loss  + classifier_loss 
             c_loss += classifier_loss.item() 
             d_loss += disc_loss.item() 
             t_loss += loss.item() 

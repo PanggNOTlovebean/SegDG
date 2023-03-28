@@ -22,7 +22,7 @@ def get_args():
     parser.add_argument('--bce_weight', type=float,
                         default=0.5, help='bce_weight')
     parser.add_argument('--lr', type=float, default=0.01, help="learning rate")
-    parser.add_argument('--net', type=str, default='resnet50',
+    parser.add_argument('--net', type=str, default='resnet',
                         help="featurizer: vgg16, resnet50, resnet101,DTNBase")
     parser.add_argument('--output', type=str,
                         default="output/test", help='result output path')
@@ -81,6 +81,8 @@ def get_args():
     parser.add_argument('--tau', type=float, default=1, help="andmask tau")
     parser.add_argument('--test_envs', type=int, nargs='+',
                         default=[3], help='target domains')
+    parser.add_argument('--domain_num', type=int, 
+                        default=6, help='domain number')
 
     parser.add_argument('--weight_decay', type=float, default=5e-4)
     args = parser.parse_args()

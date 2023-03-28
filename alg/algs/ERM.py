@@ -40,4 +40,4 @@ class ERM(Algorithm):
     def predict(self, x):
         x = x.repeat(1, 3, 1, 1)
         predictions, z = self.net(x)
-        return predictions
+        return predictions, z
